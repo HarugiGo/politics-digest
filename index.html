@@ -1,0 +1,657 @@
+<title>Politics Digest</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    /* cool blue-grey paper, slate ink, single signal-amber accent */
+    --bg: #E9ECF1;
+    --surface: #FBFCFE;
+    --ink: #191C23;
+    --ink-soft: #474E5B;
+    --ink-faint: #79818F;
+    --line: #D2D7E0;
+    --line-strong: #191C23;
+    --accent: #C98A00;
+    --accent-ink: #8A5A00;
+    --accent-wash: #FBF2DC;
+    --accent-wash-edge: #E9B84A;
+    --good: #2E7D57;
+    --shadow: 0 1px 2px rgba(24,28,35,.05), 0 12px 32px -18px rgba(24,28,35,.28);
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #101319;
+      --surface: #191D25;
+      --ink: #E9EBF0;
+      --ink-soft: #A9B1BE;
+      --ink-faint: #6E7684;
+      --line: #2A2F39;
+      --line-strong: #E9EBF0;
+      --accent: #F0B429;
+      --accent-ink: #F5C556;
+      --accent-wash: rgba(240,180,41,.08);
+      --accent-wash-edge: rgba(240,180,41,.55);
+      --good: #58C08C;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 44px -20px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101319;
+    --surface: #191D25;
+    --ink: #E9EBF0;
+    --ink-soft: #A9B1BE;
+    --ink-faint: #6E7684;
+    --line: #2A2F39;
+    --line-strong: #E9EBF0;
+    --accent: #F0B429;
+    --accent-ink: #F5C556;
+    --accent-wash: rgba(240,180,41,.08);
+    --accent-wash-edge: rgba(240,180,41,.55);
+    --good: #58C08C;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 44px -20px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Serif SC", "Libre Franklin", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.78;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 88px; }
+
+  /* ---------- nameplate ---------- */
+  .plate { padding-top: 34px; }
+  .plate-top {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .signal { display: inline-flex; align-items: center; gap: 7px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    animation: pulse 3.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    70%,100% { box-shadow: 0 0 0 7px transparent; }
+  }
+
+  .toggle {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-soft); background: transparent;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 12px; cursor: pointer; transition: border-color .18s, color .18s;
+  }
+  .toggle:hover { color: var(--ink); border-color: var(--line-strong); }
+  .toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .masthead {
+    border-top: 3px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    margin-top: 12px; padding: 18px 0 16px;
+  }
+  h1.title {
+    font-family: "Newsreader", Georgia, serif; font-weight: 600;
+    font-size: clamp(2.9rem, 11vw, 4.4rem); line-height: .96;
+    letter-spacing: -.02em; margin: 0; text-wrap: balance;
+  }
+  .title em { font-style: italic; font-weight: 500; color: var(--accent-ink); }
+  .tagline {
+    font-family: "Noto Serif SC", "Newsreader", serif; font-size: 1.06rem;
+    color: var(--ink-soft); margin: 12px 0 0; letter-spacing: .01em;
+  }
+
+  .dateline {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ink-faint); padding: 11px 0 0;
+  }
+  .dateline b { color: var(--ink-soft); font-weight: 600; }
+  .dateline .num { font-variant-numeric: tabular-nums; color: var(--accent-ink); font-weight: 600; }
+
+  /* ---------- today's signal (thesis lead) ---------- */
+  .lead {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 3px; box-shadow: var(--shadow);
+    padding: 24px 24px 22px; margin: 28px 0 8px;
+  }
+  .kicker {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent-ink); display: flex; align-items: center; gap: 9px; margin: 0 0 12px;
+  }
+  .kicker::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-wash-edge), transparent); }
+  .lead h2 {
+    font-family: "Noto Serif SC", "Newsreader", serif; font-weight: 500;
+    font-size: 1.42rem; line-height: 1.5; letter-spacing: 0; margin: 0; text-wrap: pretty;
+  }
+  .lead h2 .mark {
+    background: linear-gradient(180deg, transparent 62%, color-mix(in srgb, var(--accent) 42%, transparent) 62%);
+    padding: 0 1px;
+  }
+
+  /* ---------- section rule ---------- */
+  .sec-head { display: flex; align-items: center; gap: 12px; margin: 46px 0 6px; }
+  .sec-head .lbl {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--ink); white-space: nowrap;
+  }
+  .sec-head .lbl .zh-lbl { font-family: "Noto Serif SC", serif; letter-spacing: .08em; margin-right: 6px; }
+  .sec-head .rule { flex: 1; height: 2px; background: var(--line-strong); }
+  .sec-head .count { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+  /* ---------- entry ---------- */
+  .entry { padding: 26px 0 4px; border-bottom: 1px solid var(--line); }
+  .entry:last-of-type { border-bottom: 0; }
+
+  .byline { margin-bottom: 12px; }
+  .tag {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 4px;
+  }
+  .tag .ch { color: var(--accent-ink); }
+  .name {
+    font-family: "Newsreader", Georgia, serif; font-weight: 600;
+    font-size: 1.34rem; line-height: 1.15; letter-spacing: -.01em; margin: 0; text-wrap: balance;
+  }
+  .name span { color: var(--ink-soft); font-weight: 400; font-style: italic; font-size: .96rem; }
+
+  /* zh body is PRIMARY */
+  .zh { margin: 0; }
+  .zh + .zh { margin-top: 12px; }
+
+  /* english-original channel — key quotes only */
+  .en-quote {
+    margin: 15px 0 4px; padding: 12px 16px;
+    background: var(--accent-wash); border-left: 2px solid var(--accent-wash-edge);
+    border-radius: 0 3px 3px 0;
+    font-family: "Newsreader", Georgia, serif; font-style: italic;
+    color: var(--ink-soft); font-size: 1.02rem; line-height: 1.6;
+  }
+  .en-quote p { margin: 0; }
+  .en-quote p + p { margin-top: 8px; }
+  .en-quote .q-lbl {
+    display: block; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-style: normal; font-size: 9.5px; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px;
+  }
+
+  .receipts { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 2px; }
+  .receipts a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px; letter-spacing: .02em; color: var(--accent-ink);
+    text-decoration: none; padding: 3px 9px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+    transition: border-color .16s, background .16s, transform .16s;
+  }
+  .receipts a::before { content: "↗"; opacity: .7; }
+  .receipts a:hover { border-color: var(--accent-wash-edge); background: var(--accent-wash); transform: translateY(-1px); }
+  .receipts a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* podcast-specific */
+  .takeaway { display: flex; gap: 10px; margin: 4px 0 16px; font-size: 1.02rem; }
+  .takeaway .k {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent-ink); white-space: nowrap; padding-top: 6px;
+  }
+  .takeaway .v { margin: 0; font-weight: 600; }
+
+  blockquote {
+    margin: 18px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--accent);
+    font-family: "Newsreader", Georgia, serif; font-style: italic;
+    font-size: 1.24rem; line-height: 1.42; color: var(--ink); text-wrap: pretty;
+  }
+  blockquote .src {
+    display: block; margin-top: 8px; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-style: normal; font-size: 11px; letter-spacing: .04em; color: var(--ink-faint);
+  }
+
+  footer {
+    margin-top: 54px; padding-top: 20px; border-top: 3px solid var(--line-strong);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: .05em; color: var(--ink-faint); line-height: 1.9;
+  }
+  footer a { color: var(--accent-ink); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .88em; background: var(--accent-wash); padding: 1px 5px; border-radius: 3px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(10px); animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+  }
+</style>
+<!-- FB_RAIL_CSS -->
+
+<style>
+  /* left sidebar rail (index only) */
+  .rail {
+    position: fixed;
+    top: 34px;
+    left: max(20px, calc((100vw - 720px) / 2 - 232px));
+    width: 200px;
+    max-height: calc(100vh - 68px);
+    overflow-y: auto;
+    z-index: 10;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  .rail-inner {
+    border-left: 2px solid var(--line-strong);
+    padding: 6px 0 6px 14px;
+  }
+  .rail-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 8px; margin-bottom: 10px;
+  }
+  .rail-lbl {
+    font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  .rail-lbl .rail-zh {
+    font-family: "Noto Serif SC", serif; letter-spacing: .08em; margin-right: 6px;
+  }
+  .rail-count {
+    font-size: 10.5px; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+    letter-spacing: .06em;
+  }
+  .rail .a-list { list-style: none; padding: 0; margin: 0; }
+  .rail .a-list li { margin: 0; }
+  .rail .a-list a {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 8px 0; text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    transition: color .16s, border-color .16s, padding-left .16s;
+  }
+  .rail .a-list a:hover {
+    color: var(--accent-ink); border-color: var(--accent-wash-edge);
+    padding-left: 4px;
+  }
+  .rail .a-list .a-date {
+    font-size: 11.5px; letter-spacing: .06em; color: var(--ink);
+    font-variant-numeric: tabular-nums; font-weight: 600;
+  }
+  .rail .a-list .a-zh {
+    font-family: "Noto Serif SC", serif; font-size: 12px; color: var(--ink-faint);
+    letter-spacing: 0;
+  }
+  .rail .a-list .a-current > a {
+    color: var(--accent-ink); border-color: var(--accent-wash-edge);
+    padding-left: 4px;
+  }
+  .rail .a-list .a-current .a-date { color: var(--accent-ink); }
+  .rail .a-list a:hover .a-date,
+  .rail .a-list a:hover .a-zh { color: var(--accent-ink); }
+
+  /* rail scrollbar: subtle */
+  .rail::-webkit-scrollbar { width: 6px; }
+  .rail::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .rail::-webkit-scrollbar-thumb:hover { background: var(--line-strong); }
+
+  /* narrow viewport: rail becomes a top strip that scrolls horizontally */
+  @media (max-width: 1179px) {
+    .rail {
+      position: sticky; top: 0; left: 0; width: 100%; max-height: none;
+      background: var(--bg);
+      padding: 10px 20px 8px;
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto; overflow-y: hidden;
+    }
+    .rail-inner {
+      border-left: 0; padding: 0;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .rail-head {
+      margin: 0; flex-shrink: 0; flex-direction: column;
+      align-items: flex-start; gap: 1px;
+    }
+    .rail .a-list {
+      display: flex; gap: 4px; flex-wrap: nowrap;
+    }
+    .rail .a-list li { flex-shrink: 0; }
+    .rail .a-list a {
+      flex-direction: row; align-items: baseline; gap: 6px;
+      padding: 6px 10px; border-bottom: 0;
+      border: 1px solid var(--line); border-radius: 999px;
+      background: var(--surface); white-space: nowrap;
+    }
+    .rail .a-list a:hover { padding-left: 10px; }
+    .rail .a-list .a-current > a {
+      padding-left: 10px; background: var(--accent-wash);
+      border-color: var(--accent-wash-edge);
+    }
+    .rail .a-list .a-zh { font-size: 11px; }
+  }
+</style>
+
+<!-- FB_EXTRA --><style>
+  .masthead { margin-top: 8px; }
+  .dateline { font-size: 15px; letter-spacing: .02em; text-transform: none; gap: 8px 22px; }
+  .dateline b { font-size: 17px; color: var(--ink); }
+  .dateline .num { font-size: 17px; }
+  .lead .kicker { font-size: 13px; letter-spacing: .14em; }
+  .lead .lead-p { font-size: 17px; line-height: 1.75; margin: 0; color: var(--ink); text-wrap: pretty; }
+  .lead .lead-p .mark { background: linear-gradient(transparent 62%, var(--accent-wash) 62%); color: var(--accent-ink); font-weight: 600; }
+  .sec-head .lbl .zh-lbl { font-size: 1.7rem; font-weight: 700; letter-spacing: .04em; color: var(--ink); text-transform: none; margin: 0; }
+  .sec-sum { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 3px; padding: 14px 18px; margin: 14px 0 6px; font-size: 17px; }
+  .sec-sum p { margin: 0 0 6px; }
+  .sec-sum ol { margin: 4px 0 0; padding-left: 22px; }
+  .sec-sum .k { font-family: "Noto Serif SC", serif; font-size: 17px; font-weight: 700; color: var(--accent-ink); margin-right: 4px; }
+  .name .src { font-family: "IBM Plex Mono", "Noto Serif SC", monospace; font-style: normal; font-weight: 500; font-size: 12px; letter-spacing: .04em; color: var(--ink-faint); margin-left: 8px; white-space: nowrap; }
+  .time { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-faint); margin: 4px 0 0; }
+  .receipts { justify-content: flex-end; }
+  .lst { list-style: none; padding: 0; margin: 6px 0 0; }
+  .lst li { padding: 9px 0; border-top: 1px dashed var(--line); }
+  .lst li:first-child { border-top: 0; }
+  .lst .t { color: var(--ink); text-decoration: none; font-weight: 500; }
+  .lst .t:hover { color: var(--accent-ink); }
+  .lst .m { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-faint); }
+  .grp { font-family: "Noto Serif SC", serif; font-size: 1.2rem; font-weight: 600; color: var(--accent-ink); letter-spacing: .04em; margin: 30px 0 0; padding-bottom: 4px; border-bottom: 1px solid var(--accent-wash-edge); }
+  .note { font-family: "IBM Plex Mono", "Noto Serif SC", monospace; font-size: 12px; color: var(--ink-faint); margin: 14px 0 0; line-height: 1.7; }
+  .sec-head, .grp, .entry { scroll-margin-top: 24px; }
+  .toc { position: fixed; top: 34px; right: max(20px, calc((100vw - 720px) / 2 - 252px)); width: 220px; max-height: calc(100vh - 68px); overflow-y: auto; z-index: 10; font-family: "Noto Serif SC", serif; }
+  .toc-inner { border-left: 2px solid var(--line-strong); padding: 6px 0 6px 14px; }
+  .toc-head { font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600; letter-spacing: .2em; color: var(--ink); margin-bottom: 10px; }
+  .toc-head .rail-zh { font-family: "Noto Serif SC", serif; letter-spacing: .08em; margin-right: 6px; }
+  .toc ul { list-style: none; padding: 0; margin: 0; }
+  .toc a { text-decoration: none; color: var(--ink-faint); display: block; }
+  .toc a:hover, .toc a.on { color: var(--accent-ink); }
+  .toc .t-sec { margin: 0 0 10px; }
+  .toc .t-sec > a { font-size: 14px; font-weight: 600; color: var(--ink); padding: 4px 0; border-bottom: 1px solid var(--line); }
+  .toc .t-sec > a .n { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--ink-faint); font-weight: 400; margin-left: 6px; }
+  .toc .t-grp > a { font-size: 12.5px; font-weight: 600; color: var(--accent-ink); padding: 6px 0 2px; }
+  .toc .t-it > a { font-size: 12px; line-height: 1.45; padding: 3px 0 3px 8px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .toc::-webkit-scrollbar { width: 6px; } .toc::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .toc-m { display: none; }
+  @media (max-width: 1179px) {
+    .toc { display: none; }
+    .toc-m { display: block; margin: 18px 0 0; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); padding: 10px 14px; font-family: "Noto Serif SC", serif; }
+    .toc-m summary { cursor: pointer; font-weight: 600; font-size: 15px; color: var(--ink); }
+    .toc-m ul { list-style: none; padding: 0; margin: 8px 0 0; }
+    .toc-m a { text-decoration: none; color: var(--ink-faint); display: block; padding: 3px 0; }
+    .toc-m .t-sec > a { color: var(--ink); font-weight: 600; } .toc-m .t-grp > a { color: var(--accent-ink); padding-left: 8px; }
+    .toc-m .t-it { display: none; }
+    .sec-head, .grp, .entry { scroll-margin-top: 72px; }
+  }
+</style><!-- /FB_EXTRA -->
+<!-- /FB_RAIL_CSS -->
+
+
+
+<aside class="rail" aria-label="往期归档">
+  <div class="rail-inner">
+    <div class="rail-head">
+      <span class="rail-lbl"><span class="rail-zh">往期</span>Archive</span>
+      <span class="rail-count">1 期</span>
+    </div>
+    <ul class="a-list">
+      <li class="a-current"><a href="digest-2026-10-27.html"><span class="a-date">2026-10-27</span><span class="a-zh">周二 · 2026年10月27日</span></a></li>
+    </ul>
+  </div>
+</aside>
+<script src="archive.js"></script>
+<nav class="toc" aria-label="本期目录"><div class="toc-inner"><div class="toc-head"><span class="rail-zh">本期目录</span>Contents</div><ul><li class="t-sec"><a href="#s-1">美国<span class="n">5</span></a><ul><li class="t-it"><a href="#e-2">卢拉击败小博索纳罗，赢得第四个总统任期</a></li><li class="t-it"><a href="#e-3">司法部第三次起诉前 FBI 局长科米</a></li><li class="t-it"><a href="#e-4">特朗普在约一半关键参议院选区做出「交易式承诺」</a></li><li class="t-it"><a href="#e-5">委内瑞拉反对派领袖马查多回国，考验美国影响力</a></li><li class="t-it"><a href="#e-6">联合国调查：俄罗斯袭击乌克兰电网构成战争罪</a></li></ul></li><li class="t-sec"><a href="#s-7">欧洲<span class="n">5</span></a><ul><li class="t-it"><a href="#e-8">卢拉大逆转连任，极右翼在巴西落败</a></li><li class="t-it"><a href="#e-9">塞尔维亚：武契奇在选举中败给学生主导的抗议运动</a></li><li class="t-it"><a href="#e-10">以色列大选前夕，内塔尼亚胡暗示可能与美国重启对伊朗的战争</a></li><li class="t-it"><a href="#e-11">美贸易代表：欧盟给空客的贷款威胁欧美贸易休战</a></li><li class="t-it"><a href="#e-12">欧盟将对区外包裹收取 2 欧元手续费</a></li></ul></li><li class="t-sec"><a href="#s-13">中国<span class="n">5</span></a><ul><li class="t-it"><a href="#e-14">多个支持博索纳罗的巴西政党承认卢拉胜选</a></li><li class="t-it"><a href="#e-15">伊沙土巴四国同意就加强地区和平与安全合作展开磋商</a></li><li class="t-it"><a href="#e-16">美国拟将对华投资管制扩大到生物科技</a></li><li class="t-it"><a href="#e-17">1 至 9 月全国纪检监察机关立案省部级及以上干部 73 人</a></li><li class="t-it"><a href="#e-18">德国总统施泰因迈尔抵达安徽，开始访华</a></li></ul></li><li class="t-sec"><a href="#s-19">日本<span class="n">5</span></a><ul><li class="t-it"><a href="#e-20">特朗普称巴西大选「不正」，但未拿出证据</a></li><li class="t-it"><a href="#e-21">高市首相：下周前汇总网络安全紧急对策</a></li><li class="t-it"><a href="#e-22">前首相福田康夫去世，享年 90 岁</a></li><li class="t-it"><a href="#e-23">驻冲绳美军基地禁止比亚迪车辆进入</a></li><li class="t-it"><a href="#e-24">日英意下一代战斗机：英国邀请德国加入，日方存戒心</a></li></ul></li></ul></div></nav>
+<div class="wrap">
+
+  <header class="plate">
+    <div class="dateline"><span><a href="../ai-builders-digest/">AI Builders Digest</a></span><span><b>Politics Digest</b></span></div>
+    <div class="masthead">
+      <h1 class="title">Politics<br><em>Digest</em></h1>
+    </div>
+
+    <div class="dateline">
+      <span><b>周二 · 2026年10月27日</b></span>
+      <span>收录 2026年10月26日 内容</span>
+      <span><span class="num">20</span> 条新闻</span>
+      <span><span class="num">18</span> 家媒体</span>
+      <span><span class="num">8</span> 条多国对照</span>
+    </div>
+  </header>
+
+<section class="lead reveal">
+  <p class="kicker">Executive Summary</p>
+  <p class="lead-p">10 月 26 日的焦点是<span class="mark">巴西大选卢拉胜选</span>，四个板块都有报道，但说法各不相同：美国 NYT、AP 写「右翼受挫、特朗普少了盟友」，Fox 盯住投票「不规范」；欧洲 Le Monde、BBC 称「极右翼落败」，FT 写雷亚尔暴跌；中国新华社、人民网只强调「博索纳罗阵营承认结果」；日经则注明特朗普的「舞弊」说法「没有证据」。其他看点：美国司法部第三次起诉科米、塞尔维亚武契奇败选、以色列大选前内塔尼亚胡在伊朗问题上放狠话、伊沙土巴四国就地区安全展开磋商，以及日本推出网络安全紧急对策。</p>
+</section>
+<details class="toc-m"><summary>本期目录</summary><ul><li class="t-sec"><a href="#s-1">美国<span class="n">5</span></a><ul></ul></li><li class="t-sec"><a href="#s-7">欧洲<span class="n">5</span></a><ul></ul></li><li class="t-sec"><a href="#s-13">中国<span class="n">5</span></a><ul></ul></li><li class="t-sec"><a href="#s-19">日本<span class="n">5</span></a><ul></ul></li></ul></details>
+<div class="sec-head" id="s-1">
+  <span class="lbl"><span class="zh-lbl">美国</span></span>
+  <span class="rule"></span><span class="count">5 条</span>
+</div>
+<div class="sec-sum"><p><span class="k">本章小结</span> 美国媒体当天被两件事占满：巴西卢拉胜选，以及中期选举前一周司法部再起诉前 FBI 局长科米。同一事件，NYT/AP 偏自由派叙事，Fox 偏保守派叙事，分野很清楚。</p><ol><li>卢拉胜选：NYT、AP 写成「拉美右翼受挫、特朗普少一个盟友」，Fox 盯住投票延时的「不规范」</li><li>科米第三次被起诉：CNN 突出「第三次」，Fox 直述指控内容</li><li>中期选举：CNN 写特朗普的「交易式承诺」，Fox 写 MAGA 选民不受油价影响</li></ol></div>
+
+<article class="entry" id="e-2">
+  <div class="byline">
+    <p class="name">卢拉击败小博索纳罗，赢得第四个总统任期<span class="src">NYT · Fox News · AP · WSJ</span></p>
+    <p class="time">北京时间 10-27 04:32</p>
+  </div>
+  <p class="zh">巴西总统卢拉在决选中击败前总统博索纳罗的长子弗拉维奥·博索纳罗，再次当选。</p>
+  <p class="zh">【多国对照】美国内部就有分歧：NYT 称之为「拉美右翼的挫败」，AP 强调卢拉的胜利「逆转了地区右转潮流、让特朗普失去一个有力盟友」；Fox News 则把重点放在美国进步派的庆祝，以及投票临时延长引发的「不规范」质疑；WSJ 只看市场，标题是「巴西市场崩盘，卢拉意外胜选震惊投资者」。欧洲、中国、日本的说法见各自板块。</p>
+  <div class="receipts"><a href="https://www.nytimes.com/2026/10/25/world/americas/brazil-election-president-lula-bolsonaro.html">原文 · NYT</a><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOLXdnZW1zQllMZHM0bV9NQXpGVW1VWEZUU3ozczVHNjZmTkZOVTRVakJrYXU5RkpId0otb2Z6T3pkTTlaUDV0YklHRTh6R1VEVnBGTG5wQlI2MXByQzhkMGVSX2w5ay1PZUtFVTV2aThFc0J5OXlMRzcwWjRTbW5laWpGcGVOMHJ4NWsyY1Q1X2E1ZVVpRDFpanpPbVNib0E3MVRqb3B3YUpGOHdDQWE0S3RwMWdZUQ?oc=5">对照 · AP</a><a href="https://www.foxnews.com/politics/brazilian-election-sends-us-progressives-online-fever-key-irregularity-stokes-result-uncertainty">对照 · Fox News</a><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxOblVTTEF5cnF5WUdUNUc2bG53aS1WY0ljVjhhZkZ6X1dINTFZcElFUUlDTEJFSE5PdUUzT2hELXRJT1oydExsM1R2eWJGX09Rdm5FVnRUa2VsckE4cHVCQzFreXluSlZxUWdfczc3STAtcXdaMlJURW96dFNlenFXbnBVTjdIZWlhaUhlVkhIcENYNG1aZVlySFVvX0k?oc=5">对照 · WSJ</a></div>
+</article>
+
+<article class="entry" id="e-3">
+  <div class="byline">
+    <p class="name">司法部第三次起诉前 FBI 局长科米<span class="src">CNN · Fox News</span></p>
+    <p class="time">北京时间 10-27 05:33</p>
+  </div>
+  <p class="zh">美国司法部再次对前 FBI 局长詹姆斯·科米提起刑事指控，Fox 报道称指控涉及「传递国防信息」和共谋两项罪名。</p>
+  <p class="zh">【多国对照】CNN 标题突出这是「第三次」起诉，暗示政治追诉；Fox 直述指控内容，不作评论。南华早报则把这件事跟同日法官裁定科米女儿遭非法解雇放在一起报道。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMia0FVX3lxTE1ENWJZdGt1VGYtRmlFSkl0Wm8wQ0xxQWR2Zy1WVzhMUWlQSzBVRmJlMWdZVUVxNktSYWNTcTcyTXpXZ2J5UjFvVmlHYUt6dmRZR3hESXhfNDViZERGX2poQUFPd0ZzREE1d1hB?oc=5">原文 · CNN</a><a href="https://www.foxnews.com/politics/james-comey-faces-new-doj-case-over-alleged-national-defense-disclosure">对照 · Fox News</a></div>
+</article>
+
+<article class="entry" id="e-4">
+  <div class="byline">
+    <p class="name">特朗普在约一半关键参议院选区做出「交易式承诺」<span class="src">CNN · Fox News</span></p>
+    <p class="time">北京时间 10-27 05:16</p>
+  </div>
+  <p class="zh">CNN 统计发现，在举行关键参议院选举的州里，特朗普在大约一半的州向选民许下了与投票挂钩的具体好处。</p>
+  <p class="zh">同一场中期选举，Fox News 走的是选民现场报道：密歇根集会上的 MAGA 选民认为高油价和伊朗战争只是「暂时牺牲」，仍会投票给共和党。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMifEFVX3lxTE5RakFQemI2UkJwb1kzMUZfRllOSXJMNUl4UnhPeU5TbWhCYjB2QW5TNEFmcVBhY2RBeTItc0xCcFpfTXdYWHVId1RKRnJucmVzMUZKYnkwYW9WMC00WWExNlBaMHdNUGwwZDl3eHlSdmFwa3NIbDFjV3B0MVA?oc=5">原文 · CNN</a><a href="https://www.foxnews.com/politics/sky-high-gas-prices-iran-war-wont-stop-trump-supporters-voting-maga">对照 · Fox News</a></div>
+</article>
+
+<article class="entry" id="e-5">
+  <div class="byline">
+    <p class="name">委内瑞拉反对派领袖马查多回国，考验美国影响力<span class="src">NYT</span></p>
+    <p class="time">北京时间 10-27 07:09</p>
+  </div>
+  <p class="zh">马查多回国要求重新举行选举，NYT 分析认为她既要避免触怒特朗普政府，又得表现出自己的领导地位。</p>
+  <div class="receipts"><a href="https://www.nytimes.com/2026/10/26/world/americas/venezuela-machado-rodriguez-trump.html">原文 · NYT</a></div>
+</article>
+
+<article class="entry" id="e-6">
+  <div class="byline">
+    <p class="name">联合国调查：俄罗斯袭击乌克兰电网构成战争罪<span class="src">AP</span></p>
+    <p class="time">北京时间 10-27 06:48</p>
+  </div>
+  <p class="zh">一个联合国支持的调查组织认定，俄罗斯打击乌克兰能源设施属于战争罪；NYT 同日报道该小组认为，打击的目的就是让平民受苦。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxOckctdmhsdjZTU1FZLThLMWZNbUtFTHlmNDB6bE9ZT2tOeU9yd2NQLTEzVExNeHBJSTZUM1lIYjZpZDhCMmRENGV0aml4ZmpDQWpIUm5YSlVxb2JEdTRaLXJlcHFOSUhLR3M1VGFIVUZNbGJaRklpbGJZWDJldjF3ZlZaN3Y3eDJmaXpMTHZOMGI4ODRHbHFqcHVJTXBQaThUTUdxbktSaFcxQQ?oc=5">原文 · AP</a></div>
+</article>
+
+<div class="sec-head" id="s-7">
+  <span class="lbl"><span class="zh-lbl">欧洲</span></span>
+  <span class="rule"></span><span class="count">5 条</span>
+</div>
+<div class="sec-sum"><p><span class="k">本章小结</span> 欧洲媒体写巴西大选比美国更偏「民主叙事」，同时关注本土的塞尔维亚政权更替、以色列大选前的伊朗议题和欧美贸易摩擦。</p><ol><li>巴西：BBC、Le Monde 称「极右翼被击败」，FT 重点写雷亚尔暴跌</li><li>塞尔维亚：执政 12 年的武契奇败给学生运动</li><li>欧美贸易：美方警告欧盟给空客贷款违反飞机协议</li></ol></div>
+
+<article class="entry" id="e-8">
+  <div class="byline">
+    <p class="name">卢拉大逆转连任，极右翼在巴西落败<span class="src">BBC · Le Monde · FT</span></p>
+    <p class="time">北京时间 10-27 05:02</p>
+  </div>
+  <p class="zh">BBC 称卢拉首轮落后于弗拉维奥·博索纳罗，决选完成「戏剧性逆转」，赢得第四个任期。</p>
+  <p class="zh">【多国对照】Le Monde 标题直接定性为「极右翼在巴西被击败」，同时提醒国会仍由右翼主导；FT 从市场角度报道，称雷亚尔录得 1999 年以来最大跌幅。跟美国 Fox 的「不规范」叙事相比，欧洲媒体基本没有质疑选举结果。</p>
+  <div class="receipts"><a href="https://www.bbc.co.uk/news/articles/ckm23y3mg1yyo?at_medium=RSS&amp;at_campaign=rss">原文 · BBC</a><a href="https://www.lemonde.fr/en/opinion/article/2026/10/26/with-lula-s-victory-the-far-right-is-defeated-in-brazil_6764518_23.html">对照 · Le Monde</a><a href="https://www.ft.com/content/bffe028e-838d-4e74-b05e-62f6db4978db?syn-25a6b1a6=1">对照 · FT</a></div>
+</article>
+
+<article class="entry" id="e-9">
+  <div class="byline">
+    <p class="name">塞尔维亚：武契奇在选举中败给学生主导的抗议运动<span class="src">BBC · Le Monde</span></p>
+    <p class="time">北京时间 10-26 22:34</p>
+  </div>
+  <p class="zh">执政 12 年的民粹右翼领导人武契奇承认，他的政党在这场被视为「国家前途公投」的选举中落败，街头随即出现庆祝。Le Monde 认为塞尔维亚将进入一次重大的民主过渡。</p>
+  <p class="zh">【多国对照】日经也报道了此事，角度是「没有领袖」的学生运动打败强势执政党，对西欧也有启示。</p>
+  <div class="receipts"><a href="https://www.bbc.co.uk/news/articles/cw5yn3xlprpmo?at_medium=RSS&amp;at_campaign=rss">原文 · BBC</a><a href="https://www.lemonde.fr/en/international/article/2026/10/26/serbia-s-student-movement-wins-parliamentary-elections-against-populist-leader-aleksandar-vucic_6764419_4.html">对照 · Le Monde</a></div>
+</article>
+
+<article class="entry" id="e-10">
+  <div class="byline">
+    <p class="name">以色列大选前夕，内塔尼亚胡暗示可能与美国重启对伊朗的战争<span class="src">Reuters · Guardian</span></p>
+    <p class="time">北京时间 10-27 07:06</p>
+  </div>
+  <p class="zh">路透社报道，内塔尼亚胡在投票前一天宣传特朗普对他的背书，并暗示两国可能重启对伊朗的战争。卫报称，由于他的极右翼联盟在民调中小幅落后，他的言辞越来越危言耸听，并有报道说他曾向军方施压，要求对伊朗动手。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQUUluTlhFbGtJMWMtZ09ieVhSblh2b0Y4cWpleDVwWUVfUWVyanZIOHFhenFqaWRYZ0U0cEd6MFVjQk5xSXZkWjJNRmM4ZWdPa01KTHBRRjVHRnJPRWtlbGRwWFBNOFJnQ3F5Z2JZbjVFVE5ERUxDdmozN0FPUjRkaUpVNGIwRUFTVXhROU95dC1wby0wX2xzTlg2ODlZeDR2cmM3bHFFaHItbGJ6X3gxT2lwX0FONW11aGtoeWFXQmhmc00tWnlQZEhHQQ?oc=5">原文 · Reuters</a><a href="https://www.theguardian.com/world/2026/oct/26/netanyahu-reportedly-pressured-israel-military-attack-iran-runup-to-election">对照 · Guardian</a></div>
+</article>
+
+<article class="entry" id="e-11">
+  <div class="byline">
+    <p class="name">美贸易代表：欧盟给空客的贷款威胁欧美贸易休战<span class="src">FT</span></p>
+    <p class="time">北京时间 10-27 06:44</p>
+  </div>
+  <p class="zh">美国贸易代表格里尔称，欧洲投资银行给空客的历史性贷款有「违反」美欧飞机协议的风险。</p>
+  <div class="receipts"><a href="https://www.ft.com/content/f989f4aa-a986-4ced-ba51-fa85f396f06d?syn-25a6b1a6=1">原文 · FT</a></div>
+</article>
+
+<article class="entry" id="e-12">
+  <div class="byline">
+    <p class="name">欧盟将对区外包裹收取 2 欧元手续费<span class="src">Le Monde</span></p>
+    <p class="time">北京时间 10-26 14:59</p>
+  </div>
+  <p class="zh">从 11 月 1 日起，欧盟对所有从区外寄给消费者的包裹收取 2 欧元手续费。</p>
+  <p class="zh">【多国对照】Le Monde 只是平实地介绍新规；南华早报的标题则直接点明，这项措施是为了遏制「来自中国」的包裹。</p>
+  <div class="receipts"><a href="https://www.lemonde.fr/en/international/article/2026/10/26/eu-to-charge-two-euro-handling-fee-on-packages-from-outside-bloc_6764287_4.html">原文 · Le Monde</a><a href="https://www.scmp.com/news/world/europe/article/3372219/new-levy-non-eu-parcels-kicks-sunday-bid-curb-influx-china">对照 · 南华早报</a></div>
+</article>
+
+<div class="sec-head" id="s-13">
+  <span class="lbl"><span class="zh-lbl">中国</span></span>
+  <span class="rule"></span><span class="count">5 条</span>
+</div>
+<div class="sec-sum"><p><span class="k">本章小结</span> 中国官方媒体写巴西大选时口吻中性，重点放在「各方承认结果」；国际新闻偏重地区和平与多边合作。财新和南华早报更多写市场、中美竞争和反腐。</p><ol><li>新华社：博索纳罗阵营的多个政党承认卢拉胜选</li><li>央视：伊朗、沙特、土耳其、巴基斯坦四国同意就地区安全展开磋商</li><li>财新：美国拟把对华投资管制扩大到生物科技</li></ol></div>
+
+<article class="entry" id="e-14">
+  <div class="byline">
+    <p class="name">多个支持博索纳罗的巴西政党承认卢拉胜选<span class="src">新华社 · 人民日报 · 南华早报</span></p>
+    <p class="time">北京时间 10-27 01:57</p>
+  </div>
+  <p class="zh">新华社报道，多个支持博索纳罗的政党（包括巴西自由党主席）承认卢拉赢得大选；人民网以「卢拉连任巴西总统」为题作简讯。</p>
+  <p class="zh">【多国对照】中国官方媒体强调的是「结果被各方接受」，没有使用「左右之争」「极右翼落败」这类说法，也没有提到市场下跌。南华早报的标题则把「特朗普称选举被操纵」和「博索纳罗所在政党承认卢拉胜选」放在一起。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMid0FVX3lxTFBuOWpFdnRKS3lWYW5mdW52WWthUEk0VDdYeTkyYjc3S1dKT2xLU0ZIYnZfR3dIRnRVenpQYWs5SlM3YTVjcnB1M2FKTFJtWUx4SzdDZUV1Z3pHTmdiSHRqU2FPSDUxRjFpb0lUdnpJalh6cWdlUV9V?oc=5">原文 · 新华社</a><a href="https://news.google.com/rss/articles/CBMibEFVX3lxTE5xZnhYdmI1TUFlYXJLazhrTFM4RF9zN3pqcUpfOE1ENEw0XzFiZXI2VkYycmZ1RmhKMFBtczdPNEtESGpoa2t0djJ0VS1tR1RESFItUkwySksxWWk3cm5rTGZYQk1uRkIwQWJNZQ?oc=5">对照 · 人民日报</a><a href="https://www.scmp.com/news/world/americas/article/3372220/brazils-flavio-bolsonaro-says-he-will-lead-opposition-lula-government">对照 · 南华早报</a></div>
+</article>
+
+<article class="entry" id="e-15">
+  <div class="byline">
+    <p class="name">伊沙土巴四国同意就加强地区和平与安全合作展开磋商<span class="src">央视新闻</span></p>
+    <p class="time">北京时间 10-27 07:01</p>
+  </div>
+  <p class="zh">伊朗、沙特、土耳其、巴基斯坦四国同意就加强地区和平与安全领域的合作进行磋商。</p>
+  <p class="zh">【多国对照】FT 和南华早报把这件事写成「为防止中东战火重燃而举行的德黑兰会谈」；朝日新闻则推测，几国可能在寻找外交解决办法。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMieEFVX3lxTE1hSFVWY2hiNUw4YTFIUmp2dXA5SWREMHlkOHlFcGJBRTBxcGtheG0tUXVfOFg3Q3p6bjFxUEwyc3d5UFZLc3YySnU0Q2s2TE4zMGtZSEszS0RVcDdERFR2R3huaFk0cFk4aVkxdWlSSVdVWFFhUk9QNw?oc=5">原文 · 央视新闻</a></div>
+</article>
+
+<article class="entry" id="e-16">
+  <div class="byline">
+    <p class="name">美国拟将对华投资管制扩大到生物科技<span class="src">财新</span></p>
+    <p class="time">北京时间 10-26 18:27</p>
+  </div>
+  <p class="zh">财新英文版报道，美国提议把对华投资限制的范围扩大到生物科技领域。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxQblFLelExZFM0NWpCOWlWSFkzUDhUenRCTWJTME9DSjc1YkJ2X3l3RU1rdFEwYlF2S0I1R0kzZjBVUUUxZmh3X0V4UWdGMWE3YzBCTkQyTjFfM0dDRm9ZSnVFblY5QnRTWUNoZS1RR3B5dlQtdjRzUEgyak1kMklpOXRjYXMxSE9PWlJON2x6OVREUmtWZUdGZWowYlQ4a2s0XzFqY2JTVEgxUjdyZUllR0xhaw?oc=5">原文 · 财新</a></div>
+</article>
+
+<article class="entry" id="e-17">
+  <div class="byline">
+    <p class="name">1 至 9 月全国纪检监察机关立案省部级及以上干部 73 人<span class="src">央视新闻 · 财新</span></p>
+    <p class="time">北京时间 10-27 07:39</p>
+  </div>
+  <p class="zh">中央纪委国家监委通报，今年前三季度共立案审查调查省部级及以上干部 73 人。同日财新报道，一名芯片行业亿万富豪在不断扩大的腐败调查中被捕。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMieEFVX3lxTE9YMzRWSVV0Wk1wcXhaS184c2FWT1JCbjd1MzZRalNxNmJFRmFfb0l5d0R0cVNMMHY1QTVSM0hIT1hWOTBQQV9MbEY1Q2lIc29reF9KVVdlXzRWa05pUjZrZnhDRWZZVDU2RXhWMVRISFFoSlJuc1luOA?oc=5">原文 · 央视新闻</a><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxNYU1EMGRoNEtvUTQ0ZkUyYmNOdDB3YkV3QlRKT05wSjNBcndBcExERVhEdmpDQ2piZU5Nb3Z6ZXpsRnFLT181S0JEMHZQYjAwc0duSmpYZlZRS016MFRRSWRjQjNzWThUb0h1MGtGZ01KLUxLVnVhLVp1ckNhOEQ4VTg2TUtQQmpJd2llTEJxZ2d2a1pTWE13c1NVeXVnNlRoeVd3anIyckFJaGlsVFVn?oc=5">对照 · 财新</a></div>
+</article>
+
+<article class="entry" id="e-18">
+  <div class="byline">
+    <p class="name">德国总统施泰因迈尔抵达安徽，开始访华<span class="src">新华社</span></p>
+    <p class="time">北京时间 10-27 00:29</p>
+  </div>
+  <p class="zh">德国总统施泰因迈尔抵达安徽，开始对中国的访问。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxOQmJYeWI0clA0NjBvaUhZWmVHWlNKYXV6azlhMEdUSFJzYm44MmlqZm5KOS1HMFR1Y2tCOUFZYTBobElCVDZHRnZTS2pSYUdzWldSZzA4S0ZoTGE5blVZME1HTWRVemJvNnhwdjN6eGc5TlBYQVpkSXRmTzg1M1g1RURxUQ?oc=5">原文 · 新华社</a></div>
+</article>
+
+<div class="sec-head" id="s-19">
+  <span class="lbl"><span class="zh-lbl">日本</span></span>
+  <span class="rule"></span><span class="count">5 条</span>
+</div>
+<div class="sec-sum"><p><span class="k">本章小结</span> 日本媒体报道巴西大选时，重点放在特朗普「不正」的说法和市场震荡上，对国内则主要关注网络安全和前首相福田康夫去世。</p><ol><li>日经：特朗普称巴西大选「不正」但未拿出证据，股市和货币大跌</li><li>高市首相：下周前出台紧急网络安全对策</li><li>福田康夫去世，共同社强调他推动了中日关系</li></ol></div>
+
+<article class="entry" id="e-20">
+  <div class="byline">
+    <p class="name">特朗普称巴西大选「不正」，但未拿出证据<span class="src">日经</span></p>
+    <p class="time">北京时间 10-27 05:29</p>
+  </div>
+  <p class="zh">日经报道，特朗普声称巴西总统选举存在舞弊，但没有给出任何证据；另一篇则报道，卢拉连任引发对巴西财政的担忧，股市和货币大跌，交易一度暂停。</p>
+  <p class="zh">【多国对照】日经在「舞弊」的说法后面直接注明「没有证据」，立场比 Fox 更明确，也比中国官方媒体多了一层对美国表态的报道。</p>
+  <div class="receipts"><a href="https://www.nikkei.com/article/DGXZQOGN270260X21C26A0000000/">原文 · 日经</a><a href="https://www.nikkei.com/article/DGXZQOGN26ARD0W6A021C2000000/">对照 · 日经</a></div>
+</article>
+
+<article class="entry" id="e-21">
+  <div class="byline">
+    <p class="name">高市首相：下周前汇总网络安全紧急对策<span class="src">共同社</span></p>
+    <p class="time">北京时间 10-26 20:06</p>
+  </div>
+  <p class="zh">高市首相表示，政府将在下周前出台网络安全紧急对策。同日，邮件服务商 YmirLink 遭网络攻击，可能有 5100 万条个人信息外泄，JR 列车订票服务的用户也受到波及。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTFBYcm1FUlBhMlBUT2EwdGRCNVcyQmdlRHVGeG5HMTVqQnJQQUM5NUdidDlqaUluSnFUOG1tRHJMREtpVHlIOUVqN2JEQ01RRFBjOHJmRXBpU25Ndw?oc=5">原文 · 共同社</a></div>
+</article>
+
+<article class="entry" id="e-22">
+  <div class="byline">
+    <p class="name">前首相福田康夫去世，享年 90 岁<span class="src">共同社 · 读卖新闻</span></p>
+    <p class="time">北京时间 10-26 16:47</p>
+  </div>
+  <p class="zh">前首相福田康夫去世，享年 90 岁。共同社在标题里点出他「以加强日中关系著称」，读卖新闻英文版则只作讣闻式报道。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE5CaThDWlRwMk91dDNaYWprek5MYU9ZY0paRk44R0czbE5QWXZQWjNneEo5Sk0wZzF4eG93T2swZmk0ZnZ2MFdyZTVRalhwTnVwWElUbVF3eGxvZw?oc=5">原文 · 共同社</a><a href="https://news.google.com/rss/articles/CBMidkFVX3lxTE9UaXFTSFFZQ3QwaTB3dDVlTXZ2bVNMcUk1d0t5Umd3V2tvOGVCSkhpdUJLYXFxMVdiWEs3bzVWOVo5MFRfYnk5VDg0NUI3SGZmcDJtdDRLSW1WcWgxSnIyTXB3Ty1vNjBQMFYyUHJPQThTMGxsN3c?oc=5">对照 · 读卖新闻</a></div>
+</article>
+
+<article class="entry" id="e-23">
+  <div class="byline">
+    <p class="name">驻冲绳美军基地禁止比亚迪车辆进入<span class="src">共同社</span></p>
+    <p class="time">北京时间 10-27 04:08</p>
+  </div>
+  <p class="zh">共同社报道，美国空军出于安全考虑，禁止比亚迪车辆进入冲绳的基地。</p>
+  <div class="receipts"><a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTFBlU2I1S2VTdzllRUpOSTVGNHlYWS1OUFpPWWFYRGt2ek1ia2tmZG92SXAwV3NmNWJSLVZKeHNkOWdxVU9mVjJCX2huOUZldERUVk14Qk5yOV9iQQ?oc=5">原文 · 共同社</a></div>
+</article>
+
+<article class="entry" id="e-24">
+  <div class="byline">
+    <p class="name">日英意下一代战斗机：英国邀请德国加入，日方存戒心<span class="src">朝日新闻</span></p>
+    <p class="time">北京时间 10-27 05:00</p>
+  </div>
+  <p class="zh">朝日新闻报道，日英意三国联合研发下一代战斗机，英国在首脑会谈前邀请德国参与，日本方面对此保持警惕。</p>
+  <div class="receipts"><a href="http://www.asahi.com/articles/ASVBV2FFQVBVUTFK00DM.html?ref=rss">原文 · 朝日新闻</a></div>
+</article>
+
+<p class="note">说明：NHK 官方 RSS 当日没有新条目，暂缺；朝日、日经使用日文 RSS，读卖、共同社取自英文版。</p>
+  <footer>
+    <div>POLITICS DIGEST · 2026-10-27 · 时间均为北京时间</div>
+    <div>来源为各媒体 RSS / 公开页面，部分经 Google News 检索回退 · 摘要为中文转述，以原文为准</div>
+  </footer>
+
+</div>
+<script>(function(){var ls=[].slice.call(document.querySelectorAll('.toc a[href^="#"]'));var ts=ls.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));});
+function f(){var k=-1;for(var j=0;j<ts.length;j++){if(ts[j]&&ts[j].getBoundingClientRect().top<120)k=j;}ls.forEach(function(a,j){a.classList.toggle('on',j===k);});
+if(k>=0){var a=ls[k],t=a.closest('.toc');var r=a.getBoundingClientRect(),q=t.getBoundingClientRect();if(r.top<q.top||r.bottom>q.bottom)t.scrollTop+=r.top-q.top-q.height/2;}}
+addEventListener('scroll',f,{passive:true});f();})();</script>
+</body>
+</html>
